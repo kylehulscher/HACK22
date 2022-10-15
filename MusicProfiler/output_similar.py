@@ -1,4 +1,5 @@
 import os
+from os.path import exists
 import sys
 import glob
 import time
@@ -22,10 +23,10 @@ def die_with_usage():
 
 def compare(inType, inId):
 	# go!
-	t1 = time.time()
-	dArtists = list_all(maindir)
-	t2 = time.time()
-	stimelength = str(datetime.timedelta(seconds=t2-t1))
+	#t1 = time.time()
+	#dArtists = list_all(maindir)
+	#t2 = time.time()
+	#stimelength = str(datetime.timedelta(seconds=t2-t1))
 
 
 	prof_exists = exists("profiler.db")
@@ -45,9 +46,13 @@ def compare(inType, inId):
 		if res_sim.fetchone() is None:
 			print('Table "similarity" does not exist')
 			sys.exit(0)
-		for aid in dArtists.keys():
-			cur.execute("INSERT INTO artists VALUES(?, ?, ?)", (aid, dArtists[aid][0], dArtists[aid][1]))
-			con.commit()
+		# if inType is a name(0)
+		if inType == 0:
+			corrVal = cur_prof.execute("SELECT aid, aname FROM artists WHERE aname=?", (inId,))
+			print(corrVal)
+		elif inType == 1:
+			corrVal = cur_prof.execute("SELECT aname, aid FROM artists WHERE aid=?", (inId,))
+			print(corrVal)
 
 
 
@@ -74,11 +79,10 @@ def main(argv):
 
 if __name__ == '__main__':
 	pythonsrc = os.path.join(sys.argv[0],'../PythonSrc')
-	print(pythonsrc)
 	pythonsrc = os.path.abspath( pythonsrc )
 	sys.path.append( pythonsrc )
 	import normalizer
 
-	print(normalize_artist("ÄI-TIEM"))
-	#main(sys.argv[1:])
+	#print(normalizer.normalize_artist("a.-sd~!"))
+	main(sys.argv[1:])
 	

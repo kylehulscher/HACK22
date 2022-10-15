@@ -111,7 +111,7 @@ def replace_rotation_symbols(s):
     """
     Mostly, replace '&' by 'and'
     """
-    return re_rotsymbols.sub(' and ', s)
+    return re_rotsymbols.sub(' and ', str(s))
 
 
 def remove_stub(s):
@@ -154,7 +154,7 @@ def remove_parenthesis(s):
     """
     Remove parenthesis, like Thierry (Coolest guy)
     """
-    m = re_remparenthesis.match(s)
+    m = re_remparenthesis.match(str(s))
     if not m:
         return s
     parts = m.groups()
@@ -200,7 +200,7 @@ def split_rotation_words(s):
     then create all possible permutations
     """
     parts = re_rotwords.split(s)
-    parts = filter(lambda p: not p in rotation_words, parts)[:5]
+    parts = list(filter(lambda p: not p in rotation_words, parts))[:5]
     results = set()
     # keep only the individual elems (risky?)
     for p in parts:
@@ -231,7 +231,7 @@ def remove_nonalphanumeric(s):
     Also, we transform long spaces into normal ones
     """
     # split around non-alphanum chars
-    parts = re_nonalphanum.split(s)
+    parts = re_nonalphanum.split(str(s))
     # remove empty spots
     parts = filter(lambda p: p, parts)
     # rejoin with regular space ' '
@@ -247,9 +247,11 @@ def normalize_artist(s):
     # lower case
     s = to_lower_case(s)
     results.add(s)
+    print(results)
     # remove non-ascii chars (try to replace them)
     s = remove_non_ascii(s)
     results.add(s)
+    print(results)
     # try removing parenthesis before, in case there's an & in it
     s2 = remove_parenthesis(s)
     results.add(s2)
