@@ -3,6 +3,7 @@ import sys
 import glob
 import time
 import datetime
+import sqlite3
 
 def get_artist_ids(trackfile):
 	"""
@@ -77,7 +78,7 @@ if __name__ == '__main__':
 	if len(sys.argv) < 3:
 		die_with_usage()
 
-	pythonsrc = os.path.join(sys.argv[0],'../MSongsDB-master/PythonSrc')
+	pythonsrc = os.path.join(sys.argv[0],'../PythonSrc')
 	print(pythonsrc)
 	pythonsrc = os.path.abspath( pythonsrc )
 	sys.path.append( pythonsrc )
@@ -102,7 +103,14 @@ if __name__ == '__main__':
 	t2 = time.time()
 	stimelength = str(datetime.timedelta(seconds=t2-t1))
 
+	con = sqlite3.connect("profiler.db")
+	cur = con.cursor()
+	res = cur.execute("SELECT name FROM sqlite_master WHERE name='artists'")
+	if res.fetchone() is None:
+		cur.execute("CREATE TABLE artists(aid, ambid, aname)")
 	for aid in dArtists.keys():
 		print("{}: {}, {}".format(aid,dArtists[aid][0],dArtists[aid][1]))
+		cur.execute("INSERT INTO artists VALUES(?, ?, ?)", (aid, dArtists[aid][0], dArtists[aid][1]))
+		con.commit()
 
 	print('number of artists found:', len(dArtists),'in',stimelength)
