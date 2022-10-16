@@ -1,0 +1,28 @@
+body {
+	background: #222;
+	color: #fff;
+}
+
+.text-block {
+	display: flex;
+	justify-content: center;
+}
+
+#title {
+	text-align: center;
+	width: fit-content;
+	font-size: 50pt;
+	/* top right bottom left */
+	padding: 9pt 20pt 10pt 20pt;
+	border: 5pt solid #f55;
+	border-radius: 100pt;
+	color: #f8eb63;
+	background-color: #000;
+	box-shadow: -2pt 2pt 0.5pt 2pt #3b3a31;
+	user-select: none;
+}
+
+#wrapped {
+	text-align: center;
+
+}

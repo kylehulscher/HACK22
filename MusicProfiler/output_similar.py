@@ -49,9 +49,19 @@ def compare(inType, inId):
 		# if inType is a name(0)
 		if inType == 0:
 			corrVal = cur_prof.execute("SELECT aid FROM artists WHERE aname like ?", (inId,))
-			qOut = cur_prof.fetchall()
-			for row in qOut:
-				print(row)
+			#qOut = cur_prof.fetchall()
+			#for row in qOut:
+			#	print(row)
+			qOut = cur_prof.fetchone()
+			print("fetchone():", qOut[0])
+			simVal = cur_sim.execute("SELECT similar FROM similarity WHERE target like ?", (qOut[0],))
+			simOut = cur_sim.fetchall()
+			for row in simOut:
+				relVal = cur_prof.execute("SELECT aname FROM artists WHERE aid like ?", (row[0],))
+				relOut = cur_prof.fetchone()
+				if relOut != None:
+					print("{}: {}".format(row[0], relOut[0]))
+
 		elif inType == 1:
 			corrVal = cur_prof.execute("SELECT aid FROM artists WHERE aid like ?", (inId,))
 			qOut = cur_prof.fetchall()
