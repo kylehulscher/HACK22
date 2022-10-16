@@ -30,4 +30,14 @@ class song:
 	def __str__(self):
 		return "{}({},{},{},{},{},{},{},{})".format(name, tid, term, tempo, duration, hotttnesss, year, artistId, artistName)
 
+
+#term x5: genre is same(+1), same parent genre/category (+variable amount)
+#tempo x3: - 0.03 for every point of abs difference
+#duration x1: - 0.15 for a difference of 20s
+#hotttnesss x3: 1 - (max hotttnesss value - min hotttness value)
+#year x1: 1 - (max year - min year) *0.01
+#artistId x2: if artists are similar 1 otherwise 0
 def compareSongs(tid1, tid2):
+	song1 = song.
+	totalSum = 0
+	if 

@@ -59,7 +59,7 @@ def list_all(maindir):
 
 			aid,ambid,aname,tid,track,term,duration,tempo,hotttnesss,year = get_artist_ids(f)
 			# we add to the results tuple
-			results.append((ambid,aname, track, duration,hotttness, tempo))
+			results.append((ambid,aname, track, duration,hotttnesss, tempo))
 	# done
 	return results
 
@@ -114,7 +114,7 @@ if __name__ == '__main__':
 	res = cur.execute("SELECT name FROM sqlite_master WHERE name='artists'")
 	if res.fetchone() is None:
 		cur.execute("CREATE TABLE songs(aid TEXT, ambid TEXT, aname TEXT, tid TEXT, track TEXT, term TEXT, duration TEXT, tempo TEXT, hotttnesss TEXT, year TEXT)")
-	for track in tracks.keys(): #loop thru new list
+	for track in tracks: #loop thru new list
 		print("{}: {}, {}, {}, {}, {}, {}, {}, {}, {}".format(track.decode("utf-8"), tracks[track][0].decode("utf-8"), tracks[track][1].decode("utf-8"), tracks[track][2].decode("utf-8"), tracks[track][3].decode("utf-8"), tracks[track][4].decode("utf-8"), tracks[track][5].decode("utf-8"), tracks[track][6].decode("utf-8"), tracks[track][7].decode("utf-8"), tracks[track][8].decode("utf-8"), tracks[track][9].decode("utf-8")))
 		cur.execute("INSERT INTO artists VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (str(track.decode("utf-8")), str(tracks[track][0].decode("utf-8")), str(tracks[track][1].decode("utf-8")), str(tracks[track][2].decode("utf-8")), str(tracks[track][3].decode("utf-8")), str(tracks[track][4].decode("utf-8")), str(tracks[track][5].decode("utf-8")), str(tracks[track][6].decode("utf-8")), str(tracks[track][7].decode("utf-8")), str(tracks[track][8].decode("utf-8")), str(tracks[track][9].decode("utf-8"))))
 		con.commit()
