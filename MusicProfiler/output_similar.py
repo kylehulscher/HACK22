@@ -62,7 +62,7 @@ def compare(inType, inId, doReturn):
 					relOut = cur_prof.fetchone()
 					if relOut != None and doReturn == 0:
 						print("{}: {}".format(row[0], relOut[0]))
-					else:
+					elif relOut != None and doReturn == 1:
 						output.append((row[0], relOut[0]))
 
 		# if inType is an artist(1)
@@ -77,11 +77,9 @@ def compare(inType, inId, doReturn):
 				relOut = cur_prof.fetchone()
 				if relOut != None and doReturn == 0:
 					print("{}: {}".format(row[0], relOut[0]))
-				else:
+				elif relOut != None and doReturn == 1:
 					output.append((row[0], relOut[0]))
 
-
-[(aid,aname), (aid,aname)]
 def main(argv):
 	inType = -1
 	inId = ""
