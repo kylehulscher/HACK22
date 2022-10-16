@@ -56,7 +56,8 @@ def list_all(maindir):
 		for f in files :
 			numfiles +=1
 			# get the info we want
-			aid, ambid, aname, track, duration, hotttnesss, tempo = get_artist_ids(f)
+
+			aid,ambid,aname,tid,track,term,duration,tempo,hotttnesss,year = get_artist_ids(f)
 			# we add to the results tuple
 			results.append((ambid,aname, track, duration,hotttness, tempo))
 	# done
