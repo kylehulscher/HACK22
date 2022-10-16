@@ -21,10 +21,10 @@ def get_artist_ids(trackfile):
 
     tid = GETTERS.get_track_id(h5)
     track = GETTERS.get_track_id(h5)
-    term= GETTERS.get_artist_term(h5)
+    term= GETTERS.get_artist_terms(h5)
     duration = GETTERS.get_duration(h5)
     tempo = GETTERS.get_tempo(h5)
-    hotttnesss = GETTERS.get_hotttnesss(h5)
+    hotttnesss = GETTERS.get_song_hotttnesss(h5)
     year = GETTERS.get_year(h5)
 
     h5.close()
@@ -56,7 +56,7 @@ def list_all(maindir):
 		for f in files :
 			numfiles +=1
 			# get the info we want
-			aid,ambid,aname, track, duration, hotttnesss, tempo = get_artist_ids(f)
+			aid, ambid, aname, track, duration, hotttnesss, tempo = get_artist_ids(f)
 			# we add to the results tuple
 			results.append((ambid,aname, track, duration,hotttness, tempo))
 	# done
