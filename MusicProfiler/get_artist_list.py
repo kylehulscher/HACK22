@@ -107,10 +107,10 @@ if __name__ == '__main__':
 	cur = con.cursor()
 	res = cur.execute("SELECT name FROM sqlite_master WHERE name='artists'")
 	if res.fetchone() is None:
-		cur.execute("CREATE TABLE artists(aid, ambid, aname)")
+		cur.execute("CREATE TABLE artists(aid TEXT, ambid TEXT, aname TEXT)")
 	for aid in dArtists.keys():
-		print("{}: {}, {}".format(aid,dArtists[aid][0],dArtists[aid][1]))
-		cur.execute("INSERT INTO artists VALUES(?, ?, ?)", (aid, dArtists[aid][0], dArtists[aid][1]))
+		print("{}: {}, {}".format(aid.decode("utf-8"),dArtists[aid][0].decode("utf-8"),dArtists[aid][1].decode("utf-8")))
+		cur.execute("INSERT INTO artists VALUES(?, ?, ?)", (str(aid.decode("utf-8")), str(dArtists[aid][0].decode("utf-8")), str(dArtists[aid][1].decode("utf-8"))))
 		con.commit()
 
 	print('number of artists found:', len(dArtists),'in',stimelength)
