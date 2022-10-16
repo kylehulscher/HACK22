@@ -48,12 +48,25 @@ def compare(inType, inId):
 			sys.exit(0)
 		# if inType is a name(0)
 		if inType == 0:
-			corrVal = cur_prof.execute("SELECT aid FROM artists WHERE aname like ?", (inId,))
-			#qOut = cur_prof.fetchall()
-			#for row in qOut:
-			#	print(row)
+			corrVal = cur_prof.execute("SELECT aid, aname FROM artists WHERE aname like ?", (inId,))
 			qOut = cur_prof.fetchone()
-			print("fetchone():", qOut[0])
+			if qOut == None:
+				print("No artist by that name found.")
+			else:
+				print("Artists similar to:", qOut[1],"/", qOut[0])
+				simVal = cur_sim.execute("SELECT similar FROM similarity WHERE target like ?", (qOut[0],))
+				simOut = cur_sim.fetchall()
+				for row in simOut:
+					relVal = cur_prof.execute("SELECT aname FROM artists WHERE aid like ?", (row[0],))
+					relOut = cur_prof.fetchone()
+					if relOut != None:
+						print("{}: {}".format(row[0], relOut[0]))
+
+		# if inType is an artist(1)
+		elif inType == 1:
+			corrVal = cur_prof.execute("SELECT aid, aname FROM artists WHERE aid like ?", (inId,))
+			qOut = cur_prof.fetchone()
+			print("Artists similar to:", qOut[1],"/", qOut[0])
 			simVal = cur_sim.execute("SELECT similar FROM similarity WHERE target like ?", (qOut[0],))
 			simOut = cur_sim.fetchall()
 			for row in simOut:
@@ -61,12 +74,6 @@ def compare(inType, inId):
 				relOut = cur_prof.fetchone()
 				if relOut != None:
 					print("{}: {}".format(row[0], relOut[0]))
-
-		elif inType == 1:
-			corrVal = cur_prof.execute("SELECT aid FROM artists WHERE aid like ?", (inId,))
-			qOut = cur_prof.fetchall()
-			for row in qOut:
-				print(row)
 
 
 
@@ -97,6 +104,4 @@ if __name__ == '__main__':
 	sys.path.append( pythonsrc )
 	import normalizer
 
-	#print(normalizer.normalize_artist("a.-sd~!"))
 	main(sys.argv[1:])
-	
