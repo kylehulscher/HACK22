@@ -57,10 +57,10 @@ if __name__ == '__main__':
 				print("Not enough inputs")
 				print()
 			elif cmdList[0] == "similarArtistById" or cmdList[0] == "aid":
-				output_similar.compare(1, "%" + cmdList[1] + "%")
+				output_similar.compare(1, "%" + cmdList[1] + "%", 0)
 				print()
 			elif cmdList[0] == "similarArtistByName" or cmdList[0] == "abn":
-				output_similar.compare(0, "%" + cmdList[1] + "%")
+				output_similar.compare(0, "%" + cmdList[1] + "%", 0)
 				print()
 			elif cmdList[0] == "compareSongById" or cmdList[0] == "sid":
 				print(cmdList)

@@ -21,7 +21,7 @@ def die_with_usage():
 	print('artist Echo Nest ID<SEP>artist Musicbrainz ID<SEP>one track Echo Nest ID<SEP>artist name')
 	sys.exit(0)
 
-def compare(inType, inId):
+def compare(inType, inId, doReturn):
 	# go!
 	#t1 = time.time()
 	#dArtists = list_all(maindir)
@@ -31,6 +31,7 @@ def compare(inType, inId):
 
 	prof_exists = exists("profiler.db")
 	sim_exists = exists("artist_similarity.db")
+	output = []
 	if (prof_exists and sim_exists):
 		con_prof = sqlite3.connect("profiler.db")
 		cur_prof = con_prof.cursor()
@@ -59,8 +60,10 @@ def compare(inType, inId):
 				for row in simOut:
 					relVal = cur_prof.execute("SELECT aname FROM artists WHERE aid like ?", (row[0],))
 					relOut = cur_prof.fetchone()
-					if relOut != None:
+					if relOut != None and doReturn == 0:
 						print("{}: {}".format(row[0], relOut[0]))
+					else:
+						output.append((row[0], relOut[0]))
 
 		# if inType is an artist(1)
 		elif inType == 1:
@@ -72,11 +75,13 @@ def compare(inType, inId):
 			for row in simOut:
 				relVal = cur_prof.execute("SELECT aname FROM artists WHERE aid like ?", (row[0],))
 				relOut = cur_prof.fetchone()
-				if relOut != None:
+				if relOut != None and doReturn == 0:
 					print("{}: {}".format(row[0], relOut[0]))
+				else:
+					output.append((row[0], relOut[0]))
 
 
-
+[(aid,aname), (aid,aname)]
 def main(argv):
 	inType = -1
 	inId = ""
@@ -96,7 +101,7 @@ def main(argv):
 			inType = 1
 			inId = arg
 
-	compare(inType, inId)
+	compare(inType, inId, 0)
 
 if __name__ == '__main__':
 	pythonsrc = os.path.join(sys.argv[0],'../PythonSrc')
