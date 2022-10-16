@@ -8,6 +8,11 @@ body {
 	justify-content: center;
 }
 
+h2 {
+	text-align: center;
+	width: 70%;
+}
+
 #title {
 	text-align: center;
 	width: fit-content;
