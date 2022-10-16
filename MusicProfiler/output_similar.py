@@ -48,11 +48,11 @@ def compare(inType, inId):
 			sys.exit(0)
 		# if inType is a name(0)
 		if inType == 0:
-			corrVal = cur_prof.execute("SELECT aid, aname FROM artists WHERE aname=?", (inId,))
-			print(corrVal)
+			corrVal = cur_prof.execute("SELECT aid FROM artists WHERE aname=?", (inId,))
+			print(cur_prof.fetchone())
 		elif inType == 1:
-			corrVal = cur_prof.execute("SELECT aname, aid FROM artists WHERE aid=?", (inId,))
-			print(corrVal)
+			corrVal = cur_prof.execute("SELECT aname FROM artists WHERE aid=?", (inId,))
+			print(cur_prof.fetchone())
 
 
 
