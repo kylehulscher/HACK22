@@ -4,6 +4,7 @@ import glob
 import time
 import datetime
 import sqlite3
+import output_similar
 
 class song:
 	name = None        #song name
@@ -38,6 +39,43 @@ class song:
 #year x1: 1 - (max year - min year) *0.01
 #artistId x2: if artists are similar 1 otherwise 0
 def compareSongs(tid1, tid2):
-	song1 = song.
+	song1 = song(0, 0, 0, 0, 0, 0, 0, 0, 0)
+	song2 = song(0, 0, 0, 0, 0, 0, 0, 0, 0)
 	totalSum = 0
-	if 
+	year = 0
+	term = 0
+	tempo = 0
+	duration = 0
+	hotttnesss = 0
+	artistSimilarity =0
+
+	#year
+	year = 1 - 0.01(abs(tid1.year-tid2.year))
+	#term
+	if tid1.term == tid2.term:
+		term = 1
+	#tempo
+	tempo = -0.03(abs(tid1.tempo - tid2.tempo))
+	#duration
+	duration = -0.15(abs(tid1.duration-tid2.duration))
+	#hotttnesss 
+	hotttnesss = 1 - (abs(tid1.hotttnesss-tid2.hotttnesss))
+
+	#artist same or similar
+	if tid1.artistId == tid2.artistId:
+		artistSimilarity = 1
+
+	else:	
+		a1Sim = output_similar.compare(1, song1.artistId, 1)
+		a2Sim = output_similar.compare(1, song2.artistId, 1)
+		for entry in a1Sim:
+			if entry[0] == tid2.artistId:
+				artistSimilarity = 0.75
+		for entry in a2Sim:
+			if entry[0] == tid1.artistId:
+				artistSimilarity = min(artistSimilarity + 0.75, 1)
+
+	totalSum = (year + term + tempo + duration + hotttnesss + artistSimilarity) / 15
+
+
+
